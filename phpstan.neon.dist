@@ -1,0 +1,9 @@
+parameters:
+    level: max
+    paths:
+        - .
+    excludePaths:
+        - ./vendor/*
+
+includes:
+    - vendor/thecodingmachine/phpstan-safe-rule/phpstan-safe-rule.neon
