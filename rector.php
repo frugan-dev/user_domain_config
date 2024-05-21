@@ -35,7 +35,7 @@ return static function (RectorConfig $rectorConfig): void {
         LevelSetList::UP_TO_PHP_74,
     ]);
 
-    if (file_exists(__DIR__.'/vendor/thecodingmachine/safe/rector-migrate.php')) {
-        (require __DIR__.'/vendor/thecodingmachine/safe/rector-migrate.php')($rectorConfig);
-    }
+    // if (file_exists(__DIR__.'/vendor/thecodingmachine/safe/rector-migrate.php')) {
+    //     (require __DIR__.'/vendor/thecodingmachine/safe/rector-migrate.php')($rectorConfig);
+    // }
 };

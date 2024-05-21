@@ -17,8 +17,7 @@
     ],
     "homepage": "https://github.com/frugan-dev/user_domain_config",
     "require": {
-        "roundcube/plugin-installer": ">=0.3.0",
-        "thecodingmachine/safe": "^1.3"
+        "roundcube/plugin-installer": ">=0.3.0"
     },
     "require-dev": {
         "ergebnis/composer-normalize": "^2.42",
@@ -30,7 +29,6 @@
         "povils/phpmnd": "^3.4",
         "rector/rector": "^1.1",
         "roave/security-advisories": "dev-latest",
-        "thecodingmachine/phpstan-safe-rule": "^1.2",
         "vimeo/psalm": "^5.24"
     },
     "repositories": [
