@@ -1,0 +1,81 @@
+name: CI
+
+on:
+  pull_request:
+  workflow_dispatch:
+  # Called by release.yml on every push to main, so that a release only
+  # happens once these jobs pass: hence no `push` trigger here.
+  workflow_call:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}-${{ github.event_name }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          coverage: none
+
+      - name: Validate composer.json
+        run: composer validate --strict
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress
+
+      - name: Pint
+        run: composer lint
+
+      - name: Shellcheck
+        run: shellcheck -x tests/smoke.sh
+
+  # The plugin runs on the PHP of the Roundcube install, from the oldest
+  # version declared in composer.json to the newest.
+  syntax:
+    name: syntax (PHP ${{ matrix.php }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ['7.1', '8.5']
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: none
+          tools: none
+
+      - name: Lint
+        run: php -l user_domain_config.php
+
+  smoke:
+    name: smoke (Roundcube ${{ matrix.roundcube }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        roundcube: ['1.6.x-apache', '1.7.x-apache']
+    env:
+      ROUNDCUBE_TAG: ${{ matrix.roundcube }}
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Start the stack
+        run: docker compose up -d --wait
+
+      - name: Smoke test
+        run: tests/smoke.sh
+
+      - name: Logs
+        if: failure()
+        run: docker compose logs

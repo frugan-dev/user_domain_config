@@ -1,0 +1,29 @@
+# Auto-label PRs based on changed files.
+# Syntax required by actions/labeler v5 and above.
+"area: plugin":
+  - changed-files:
+      - any-glob-to-any-file:
+          - "user_domain_config.php"
+          - "composer.json"
+
+"area: tests":
+  - changed-files:
+      - any-glob-to-any-file:
+          - "tests/**"
+          - "docker-compose.yml"
+          - ".env.dist"
+
+"area: docs":
+  - changed-files:
+      - any-glob-to-any-file:
+          - "*.md"
+          - ".github/*.md"
+
+"area: ci/cd":
+  - changed-files:
+      - any-glob-to-any-file:
+          - ".github/**"
+          - ".releaserc.json"
+          - "commitlint.config.mjs"
+          - "pint.json"
+          - ".gitattributes"

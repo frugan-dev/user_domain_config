@@ -1,0 +1,22 @@
+version: 2
+updates:
+  # `ci:` commits: a bumped action is no reason for a new plugin release.
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+    open-pull-requests-limit: 5
+    assignees:
+      - "frugan-dev"
+    commit-message:
+      prefix: "ci"
+    labels:
+      - "dependencies"
+      - "github-actions"
+
+# No "composer" entry: the plugin has no runtime dependency besides the plugin
+# installer, and Pint is required with a caret range in a project that does
+# not commit composer.lock. No "docker-compose" entry either: the Roundcube
+# tags in docker-compose.yml and ci.yml follow a branch (1.7.x) on purpose.

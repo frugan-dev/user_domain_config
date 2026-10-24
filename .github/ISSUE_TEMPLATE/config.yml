@@ -1,0 +1,9 @@
+blank_issues_enabled: false
+contact_links:
+  - name: "📖 Documentation"
+    url: "https://github.com/frugan-dev/user_domain_config#readme"
+    about: "Read the documentation before asking questions"
+
+  - name: "💌 Security Issues"
+    url: "https://github.com/frugan-dev/user_domain_config/security"
+    about: "For security vulnerabilities (private reporting)"

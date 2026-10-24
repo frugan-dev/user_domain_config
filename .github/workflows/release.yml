@@ -1,0 +1,53 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  ci:
+    uses: ./.github/workflows/ci.yml
+
+  # Only a tag and a GitHub release: no CHANGELOG.md is committed back, so
+  # nothing pushes to main and GITHUB_TOKEN is enough, even with main
+  # protected. Packagist picks the tag up through its webhook, which, unlike
+  # workflows, also fires for pushes made with GITHUB_TOKEN.
+  release:
+    name: Create Release
+    needs: ci
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: "lts/*"
+
+      - name: Semantic Release
+        uses: cycjimmy/semantic-release-action@v8
+        with:
+          extra_plugins: |
+            @semantic-release/commit-analyzer@latest
+            @semantic-release/release-notes-generator@latest
+            @semantic-release/github@latest
+            conventional-changelog-conventionalcommits@9
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
