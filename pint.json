@@ -1,0 +1,12 @@
+{
+    "preset": "psr12",
+    "exclude": [
+        "tests/fixtures"
+    ],
+    "rules": {
+        "declare_strict_types": true,
+        "header_comment": {
+            "header": "This file is part of the Per-User-Domain Configuration Plugin for Roundcube.\n\n(ɔ) Frugan <dev@frugan.it>\n\nThis source file is subject to the GNU GPLv3 license that is bundled\nwith this source code in the file COPYING."
+        }
+    }
+}

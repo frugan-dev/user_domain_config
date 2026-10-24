@@ -1,19 +1,24 @@
-vendor/
-composer.phar
-composer.lock
-
-.env
-.env.*
+# Environment
+.env*
 !.env.dist
 
-.php-cs-fixer*
-!.php-cs-fixer.dist*
+# Composer
+/vendor/
+composer.lock
 
-grumphp.yml
-!grumphp.yml.dist
+# Repo
+*.code-workspace
+# Maintainer's private notes for agents, kept in a separate repository
+agents/
 
-.phpstan.neon
-!phpstan.neon.dist
+# Tools
+.ctxsync*
+.claude*
+venv/
+*.cache
 
-psalm.xml
-!psalm.xml.dist
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo

@@ -16,44 +16,38 @@
         }
     ],
     "homepage": "https://github.com/frugan-dev/user_domain_config",
+    "support": {
+        "issues": "https://github.com/frugan-dev/user_domain_config/issues",
+        "source": "https://github.com/frugan-dev/user_domain_config",
+        "docs": "https://github.com/frugan-dev/user_domain_config#readme"
+    },
+    "funding": [
+        {
+            "type": "custom",
+            "url": "https://buymeacoff.ee/frugan"
+        }
+    ],
     "require": {
         "php": "^7.1 || ^8.0",
         "roundcube/plugin-installer": "~0.3.5"
     },
     "require-dev": {
-        "ergebnis/composer-normalize": "^2.42",
-        "friendsofphp/php-cs-fixer": "^3.57",
-        "nikic/php-parser": "^4.19",
-        "php-parallel-lint/php-parallel-lint": "^1.4",
-        "phpro/grumphp-shim": "^1.13",
-        "phpstan/phpstan": "^1.11",
-        "povils/phpmnd": "^3.4",
-        "rector/rector": "^1.1",
-        "roave/security-advisories": "dev-latest",
-        "vimeo/psalm": "^5.24"
+        "laravel/pint": "^1.0"
     },
-    "repositories": [
-        {
-            "type": "composer",
-            "url": "https://plugins.roundcube.net"
-        }
-    ],
     "minimum-stability": "stable",
     "config": {
         "allow-plugins": {
-            "ergebnis/composer-normalize": true,
-            "phpro/grumphp-shim": true,
             "roundcube/plugin-installer": true
         },
-        "platform": {
-            "php": "7.4"
-        },
-        "platform-check": true,
         "sort-packages": true
     },
     "extra": {
         "roundcube": {
             "min-version": "1.5.0"
         }
+    },
+    "scripts": {
+        "lint": "pint --test",
+        "lint:fix": "pint"
     }
 }
