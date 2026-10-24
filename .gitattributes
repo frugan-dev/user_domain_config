@@ -1,0 +1,12 @@
+# Keep development files out of the archive Composer downloads (dist): up to
+# Roundcube 1.6 the plugins directory sits under the document root.
+/.github export-ignore
+/tests export-ignore
+/.env.dist export-ignore
+/.gitattributes export-ignore
+/.gitignore export-ignore
+/.releaserc.json export-ignore
+/AGENTS.md export-ignore
+/commitlint.config.mjs export-ignore
+/docker-compose.yml export-ignore
+/pint.json export-ignore
