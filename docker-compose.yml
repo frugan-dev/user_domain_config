@@ -1,0 +1,57 @@
+# Local stack to try the plugin: the official Roundcube image with this
+# checkout mounted as a plugin, and GreenMail as IMAP and SMTP server, which
+# accepts any user and password. Not a production template.
+#
+#   docker compose up -d --wait
+#   tests/smoke.sh
+#
+# Then log in at http://localhost:8080 as anyone@example.test (any password):
+# the page shows the product name set in tests/fixtures/domains.
+
+services:
+  roundcube:
+    image: roundcube/roundcubemail:${ROUNDCUBE_TAG:-1.7.x-apache}
+    depends_on:
+      - greenmail
+    environment:
+      ROUNDCUBEMAIL_DEFAULT_HOST: greenmail
+      ROUNDCUBEMAIL_DEFAULT_PORT: 3143
+      ROUNDCUBEMAIL_SMTP_SERVER: greenmail
+      ROUNDCUBEMAIL_SMTP_PORT: 3025
+      ROUNDCUBEMAIL_PLUGINS: user_domain_config
+      # Searched before config/, as in production: the image includes every
+      # *.php of /var/roundcube/config for all users, so the per-domain files
+      # cannot live there.
+      RCUBE_CONFIG_PATH: /var/roundcube/domains
+    volumes:
+      # On the first start the entrypoint warns that the document root is not
+      # empty and waits 10 seconds before copying Roundcube around the plugin.
+      - ./:/var/www/html/plugins/user_domain_config:ro
+      - ./tests/fixtures/domains:/var/roundcube/domains:ro
+      # Target of the path traversal checks of tests/smoke.sh.
+      - ./tests/fixtures/outside:/var/roundcube/outside:ro
+    ports:
+      - "${ROUNDCUBE_HTTP_PORT:-8080}:80"
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "-o", "/dev/null", "http://localhost/"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+      start_period: 60s
+
+  greenmail:
+    image: greenmail/standalone:latest
+
+  # Composer and pint, without PHP on the host:
+  #   docker compose run --rm composer install
+  #   docker compose run --rm composer lint
+  composer:
+    image: composer:2
+    profiles:
+      - tools
+    user: "${USER_ID:-1000}:${GROUP_ID:-1000}"
+    environment:
+      COMPOSER_HOME: /tmp/composer
+    working_dir: /app
+    volumes:
+      - ./:/app
