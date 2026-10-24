@@ -17,7 +17,8 @@
     ],
     "homepage": "https://github.com/frugan-dev/user_domain_config",
     "require": {
-        "roundcube/plugin-installer": ">=0.3.0"
+        "php": "^7.1 || ^8.0",
+        "roundcube/plugin-installer": "~0.3.5"
     },
     "require-dev": {
         "ergebnis/composer-normalize": "^2.42",
@@ -52,7 +53,7 @@
     },
     "extra": {
         "roundcube": {
-            "min-version": "1.0.0"
+            "min-version": "1.5.0"
         }
     }
 }
